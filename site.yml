@@ -1,0 +1,5 @@
+---
+- include_playbook: control.yml
+- include_playbook: database.yml
+- include_playbook: webserver.yml
+- include_playbook: loadbalancer.yml

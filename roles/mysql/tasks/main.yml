@@ -1,0 +1,52 @@
+---
+- name: install mysql and packages
+  apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+  with_items:
+  - mysql-server
+  - python-mysqldb
+
+- name: set hostname to servername
+  hostname:
+    name: "{{ inventory_hostname }}"
+
+- name: setup root config
+  template:
+    src: .my.cnf.j2
+    dest: ~/.my.cnf
+    owner: root
+    mode: 0644
+
+- name: ensure mysql listing on all ports
+  lineinfile:
+    path: /etc/mysql/mysql.conf.d/mysqld.cnf
+    regexp: '^bind-address'
+    line: 'bind-address = 0.0.0.0'
+  notify: restart mysql
+
+- name: ensure mysql started
+  service:
+    name: mysql
+    state: started
+    enabled: yes
+
+- name: create demo user
+  mysql_user:
+    name: demo
+    password: demo
+    priv: 'demo.*:ALL'
+    host: '%'
+    state: present
+
+- name: create demo database
+  mysql_db:
+    name: demo
+    state: present
+
+- name: ensure mysql started
+  service:
+    name: mysql
+    state: started
+    enabled: yes

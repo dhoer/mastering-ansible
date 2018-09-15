@@ -1,0 +1,13 @@
+---
+- name: install ctl components
+  apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+  with_items:
+  - curl
+  - python-httplib2
+
+- name: set hostname to servername
+  hostname:
+    name: "{{ inventory_hostname }}"
