@@ -1,6 +1,7 @@
 ---
 - hosts: loadbalancer
   become: true
+  gather_facts: false
   tasks:
   - service:
       name: nginx
@@ -11,6 +12,7 @@
 
 - hosts: webserver
   become: true
+  gather_facts: false
   tasks:
   - service:
       name: apache2
@@ -21,6 +23,7 @@
 
 - hosts: database
   become: true
+  gather_facts: false
   tasks:
   - service:
       name: mysql
@@ -31,6 +34,7 @@
 
 - hosts: webserver
   become: true
+  gather_facts: false
   tasks:
   - service:
       name: apache2
@@ -40,6 +44,7 @@
 
 - hosts: loadbalancer
   become: true
+  gather_facts: false
   tasks:
   - service:
       name: nginx

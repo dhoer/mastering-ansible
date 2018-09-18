@@ -4,6 +4,7 @@
   tasks:
     - name: verify nginx service
       command: service nginx status
+      changed_when: false
 
     - name: verify nginx is listenting
       wait_for:
@@ -12,9 +13,11 @@
 
 - hosts: webserver
   become: true
+  gather_facts: false
   tasks:
     - name: verify apache2 service
       command: service apache2 status
+      changed_when: false
 
     - name: verify apache2 is listenting
       wait_for:
@@ -23,9 +26,11 @@
 
 - hosts: database
   become: true
+  gather_facts: false
   tasks:
     - name: verify mysql service
       command: service mysql status
+      changed_when: false
 
     - name: verify mysql is listenting
       wait_for:
@@ -33,6 +38,7 @@
         timeout: 1
 
 - hosts: control
+  gather_facts: false
   tasks:
     - name: verify end-to-end response
       uri:
@@ -60,6 +66,7 @@
       with_items: "{{lb_db.results}}"
 
 - hosts: loadbalancer
+  gather_facts: false
   tasks:
     - name: verify backend response
       uri:

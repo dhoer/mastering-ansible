@@ -16,6 +16,7 @@ Vagrant.configure(2) do |config|
   config.vm.box = "ubuntu/xenial64"
 
   config.vm.define "control", primary: true do |h|
+    h.vm.hostname = "ctl"
     h.vm.network "private_network", ip: "192.168.135.10"
     h.vm.provision :shell, inline: 'sudo apt-add-repository -y ppa:ansible/ansible'
     h.vm.provision :shell, inline: 'sudo apt-get -y update'
